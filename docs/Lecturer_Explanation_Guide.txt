@@ -1,0 +1,150 @@
+BATCH FILE RENAMER AND ORGANIZER - EASY EXPLANATION GUIDE
+==========================================================
+
+1. MY PROJECT IN 20 SECONDS
+---------------------------
+"Good morning. My USP project is called Batch File Renamer and Organizer.
+If a folder has many mixed files, manually renaming and sorting them takes
+unnecessary time. My Bash script selects files using a pattern, renames them,
+and automatically moves them into folders based on extension or modified date.
+It also includes a safe preview, collision checking, filename cleaning and a
+log of completed changes."
+
+2. SIMPLE EXAMPLE
+-----------------
+Before:   Project Notes.txt   Invoice 01.pdf   student data.csv
+After:    txt/USP_Project Notes.txt
+          pdf/USP_Invoice 01.pdf
+          csv/USP_student data.csv
+
+3. HOW TO RUN THE LIVE DEMO (WSL / LINUX TERMINAL)
+-------------------------------------------------
+Open a terminal in the project folder. Type these commands one by one:
+
+  bash demo_setup.sh
+
+Explain: "This creates seven sample files; I use test files so no personal
+files are affected."
+
+  bash src/renamer.sh --directory demo_workspace --pattern '*.txt' --prefix 'USP_' --mode extension
+
+Explain: "The command is in PREVIEW mode, so it shows the expected names and
+folders but does not actually change anything."
+
+  ls -1 demo_workspace
+
+Explain: "The input files are still here, which proves preview is safe."
+
+  bash src/renamer.sh --directory demo_workspace --pattern '*.txt' --prefix 'USP_' --mode extension --apply
+
+Explain: "Now I used --apply, so it creates txt/ and moves matching text files.
+Other types remain untouched because I specified '*.txt'."
+
+  ls -1 demo_workspace/txt
+  cat logs/operations.tsv
+
+Explain: "The log records the date/time, old path, new path and MOVED status."
+
+  bash tests/test_renamer.sh
+
+Explain: "Automated tests verify the main features and edge cases."
+
+4. HOW EACH IMPORTANT BASH CONCEPT IS USED
+------------------------------------------
+GLOBBING:       '*.txt' matches every TXT filename in the chosen folder.
+PARAMETER EXP:  ${name%.*} removes the last extension; ${name##*.} extracts it.
+BASENAME:       basename extracts a filename from its complete path.
+DIRNAME:        dirname extracts the parent folder of a path.
+CASE:           case handles --mode choices and unsafe characters.
+LOOPS:          for loops process files and filename characters; while parses arguments.
+QUOTING:        "$source" protects spaces in filenames such as 'My Notes.txt'.
+MV:             mv -n -T moves files without overwriting existing destinations.
+
+5. FOUR FEATURES THE LECTURER MAY ASK ABOUT
+-------------------------------------------
+PREVIEW MODE:   Default. Shows planned changes only. Use --apply to execute.
+COLLISION:      If a target exists, print COLLISION and skip it. Also reserve
+                target names so a second file cannot claim the same destination.
+INVALID NAME:   Replace characters like ?, :, *, < and > with underscores.
+LOGGING:        Save timestamp, old file path, new file path, status in a TSV file.
+
+6. WHY I USED BASH
+-----------------
+Bash is ideal for shell automation because it can directly inspect files and
+folders and work with operating-system commands like mv, date, and mkdir.
+It is much quicker than renaming many files by hand.
+
+7. FLOW OF THE PROGRAM
+----------------------
+Read command options -> check input folder -> loop through filenames ->
+match glob -> split extension -> apply rename rules -> clean invalid chars ->
+choose destination folder -> check collisions -> preview OR move -> log.
+
+8. COMMON VIVA QUESTIONS AND SIMPLE ANSWERS
+--------------------------------------------
+Q: What is a shell script?
+A: A text file with shell commands that run automatically in sequence.
+
+Q: What does the pattern '*.txt' mean?
+A: It matches filenames ending in .txt. It is globbing, not regex.
+
+Q: Why use double quotes around file paths?
+A: So names containing spaces are treated as one path.
+
+Q: What is the difference between preview and apply?
+A: Preview only prints proposed moves; apply actually moves files.
+
+Q: What happens if the destination file already exists?
+A: The script prints COLLISION and skips the move; it doesn't overwrite it.
+
+Q: What does --mode date do?
+A: It sorts files using their last-modified date, such as 2026-11-19/.
+
+Q: What does basename do?
+A: It extracts the filename from a full path.
+
+Q: What does dirname do?
+A: It extracts the parent directory from a path.
+
+Q: What does mv do?
+A: It moves or renames a file.
+
+Q: What is parameter expansion?
+A: Bash syntax that edits a string, such as removing a filename extension.
+
+Q: Is the script recursive?
+A: No. It intentionally processes the selected folder's top-level files only.
+
+Q: What are the limitations?
+A: It targets Linux/WSL, does not provide automatic undo, and does not scan
+   subfolders. These could be improved in a future version.
+
+Q: How is this related to SDGs?
+A: SDG 9: practical automation and digital infrastructure.
+   SDG 12: reduces repetitive workflows and supports efficient file management.
+
+9. PRESENTATION SPEAKING PLAN (4-6 MINUTES)
+------------------------------------------
+Slide 1:  Give your name, course and project title (20 seconds).
+Slide 2:  Explain the problem of disorganized files (25 seconds).
+Slide 3:  State the main objective and features (30 seconds).
+Slide 4:  Explain tools and shell concepts (35 seconds).
+Slide 5:  Talk through the flowchart (40 seconds).
+Slide 6:  Demonstrate before/after examples (30 seconds).
+Slide 7:  Explain safety: preview, collisions, sanitation (40 seconds).
+Slide 8:  Show live terminal demo (1-2 minutes).
+Slide 9:  Explain testing and expected results (30 seconds).
+Slide 10: Conclude and thank the lecturer (15 seconds).
+
+10. LAST-MINUTE CHECKLIST
+------------------------
+[ ] Replace placeholders for your name, USN, college and lecturer.
+[ ] Open the project folder in WSL/Ubuntu terminal.
+[ ] Run 'bash demo_setup.sh' before presenting.
+[ ] Have the PPT and report available offline.
+[ ] Run 'bash tests/test_renamer.sh' once before class.
+[ ] Use PREVIEW first; use --apply only on demo_workspace.
+[ ] Keep source, report and PPT together for submission.
+
+NOTE: If the Bash script returns a nonzero exit code for a collision, that is
+intentional: it reports that at least one file could not be processed safely.
