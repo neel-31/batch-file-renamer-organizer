@@ -1,0 +1,5 @@
+demo_workspace/
+logs/*.tsv
+*.swp
+.DS_Store
+__pycache__/
