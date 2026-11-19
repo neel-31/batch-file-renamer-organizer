@@ -1,0 +1,28 @@
+GITHUB PUBLISHING - ACCOUNT: neel-31
+====================================
+Requested repository name: batch-file-renamer-organizer
+
+If the project has not yet been published, create an EMPTY public repository
+named batch-file-renamer-organizer at https://github.com/new
+(Do NOT add README or .gitignore when creating it; these are already included.)
+
+From your Linux/WSL terminal, open the downloaded project folder and run:
+
+    git init
+    git add .
+    git commit -m "Initial USP Bash project"
+    git branch -M main
+    git remote add origin https://github.com/neel-31/batch-file-renamer-organizer.git
+    git push -u origin main
+
+GitHub may ask you to sign in through an authorized credential manager.
+Do not share your password or access token in ChatGPT.
+
+If the repository already has an initial commit, do not force push;
+use a fresh empty repository or reconcile the existing history.
+
+After successful publication, the repo should be available at:
+https://github.com/neel-31/batch-file-renamer-organizer
+
+IMPORTANT: This text provides instructions. It is NOT proof that a GitHub
+repository has been created or that any push has completed.
